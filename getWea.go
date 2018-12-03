@@ -35,7 +35,7 @@ func httpGet(c *City) {
 	ch <- c.Id
 }
 func Getwea() {
-	r := gin.Default()
+
 	a = append(a, City{
 		Id:   "101190807",
 		Name: "新沂",
@@ -98,12 +98,24 @@ func Getwea() {
 	for i := 0; i < len(b); i++ {
 		<-ch
 	}
+}
+
+func Init() {
+	r := gin.Default()
+	r.LoadHTMLGlob("weafont/dist/*.html")
+	r.Static("/static", "./weafont/dist/static/")
+	r.GET("/", func(c *gin.Context) {
+		c.HTML(200, "index.html", gin.H{
+			"code": "200",
+			"msg":  "index",
+		})
+	})
 	r.GET("/api/weather", func(c *gin.Context) {
+		Getwea()
 		c.JSON(200, gin.H{
 			"code": "200",
 			"data": arr,
 		})
 	})
 	r.Run(":8090")
-
 }

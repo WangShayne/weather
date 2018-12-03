@@ -1,11 +1,12 @@
 FROM golang:latest
 
-WORKDIR $GOPATH/src/github.com/weather
-COPY . $GOPATH/src/github.com/weather
-RUN go build . \
-    && cd ./weafont \
-    && npm install \
-    && npm run dev
+RUN mkdir -p /go/src/weather
+WORKDIR /go/src/weather
+
+COPY  . /go/src/weather
+
+RUN  go get github.com/gin-gonic/gin
+RUN  go build .
 
 EXPOSE 10080
 ENTRYPOINT ["./weather"]
