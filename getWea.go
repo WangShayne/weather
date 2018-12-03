@@ -3,9 +3,10 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/gin-gonic/gin"
 	"io/ioutil"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
 var ch chan string = make(chan string)
@@ -97,7 +98,7 @@ func Getwea() {
 	for i := 0; i < len(b); i++ {
 		<-ch
 	}
-	r.GET("/weather", func(c *gin.Context) {
+	r.GET("/api/weather", func(c *gin.Context) {
 		c.JSON(200, gin.H{
 			"code": "200",
 			"data": arr,
