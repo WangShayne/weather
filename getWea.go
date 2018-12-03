@@ -9,8 +9,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-var ch chan string = make(chan string)
 var arr []interface{}
+var ch chan string = make(chan string)
 
 type City struct {
 	Id   string
@@ -20,7 +20,6 @@ type City struct {
 var a []City
 
 func httpGet(c *City) {
-
 	resp, err := http.Get("https://www.tianqiapi.com/api/?version=v1&city=" + c.Name + "&cityid=" + c.Id)
 	if err != nil {
 		fmt.Println(err)
@@ -89,6 +88,7 @@ func Getwea() {
 		Name: "秦皇岛",
 	})
 	b := a[:]
+
 	go func() {
 		for i := 0; i < len(b); i++ {
 			httpGet(&b[i])
@@ -111,11 +111,14 @@ func Init() {
 		})
 	})
 	r.GET("/api/weather", func(c *gin.Context) {
+		arr = nil
+		a = nil
 		Getwea()
 		c.JSON(200, gin.H{
 			"code": "200",
 			"data": arr,
 		})
+
 	})
 	r.Run(":8090")
 }
