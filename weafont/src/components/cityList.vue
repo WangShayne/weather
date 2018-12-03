@@ -51,7 +51,7 @@ export default {
 		getWea(){
 			let v = this;
 			axios.get("/api/weather").then( data => {
-				console.log(data.data)
+				v.city = []
 				v.city.push(...data.data.data)
 			})
 		}
